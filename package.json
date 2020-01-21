@@ -1,0 +1,71 @@
+{
+  "name": "reserve-cmd",
+  "version": "1.0.0",
+  "description": "command handler for REserve",
+  "main": "./index.js",
+  "files": [
+    "*.js"
+  ],
+  "engines": {
+    "node": ">=10.0.0"
+  },
+  "scripts": {
+    "test": "standard && nyc mocha",
+    "lint": "standard --fix",
+    "mocha": "mocha",
+    "mocha-dbg": "node --inspect-brk node_modules/mocha/bin/_mocha",
+    "cover": "nyc mocha && nyc report --reporter=lcov"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ArnaudBuchholz/reserve-cmd.git"
+  },
+  "keywords": [
+    "reserve",
+    "command"
+  ],
+  "author": "Arnaud Buchholz",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ArnaudBuchholz/reserve-cmd/issues"
+  },
+  "homepage": "https://github.com/ArnaudBuchholz/reserve-cmd#readme",
+  "devDependencies": {
+    "colors": "^1.4.0",
+    "coveralls": "^3.0.9",
+    "eslint-utils": "^2.0.0",
+    "lodash": "^4.17.15",
+    "mocha": "^7.0.0",
+    "mock-require": "^3.0.3",
+    "nyc": "^15.0.0",
+    "reserve": "^1.1.4",
+    "standard": "^14.3.1"
+  },
+  "dependencies": {},
+  "standard": {
+    "globals": [
+      "XMLHttpRequest",
+      "window",
+      "process",
+      "describe",
+      "it",
+      "before",
+      "after"
+    ]
+  },
+  "mocha": {
+    "spec": [
+      "tests/mocha/*.test.js"
+    ]
+  },
+  "nyc": {
+    "check-coverage": true,
+    "exclude": [
+      "tests/mocha/assert.js"
+    ],
+    "branches": 100,
+    "lines": 100,
+    "functions": 100,
+    "statements": 100
+  }
+}
