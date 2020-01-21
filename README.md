@@ -17,6 +17,7 @@ cmd handler for [reserve](https://npmjs.com/package/reserve)
 
 ## Options
 
+* env for environment variables
 * timeout
 * fail on if stderr is used
 
