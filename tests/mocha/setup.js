@@ -8,6 +8,6 @@ module.exports = require('reserve/mock')({
   mappings: [{
     match: /\/cmd\?param=(.*)/,
     cwd: __dirname,
-    cmd: 'node cmd.js \'$1\''
+    cmd: 'node ../cmd.js \'$1\''
   }]
 })
