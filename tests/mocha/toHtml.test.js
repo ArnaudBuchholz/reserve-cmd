@@ -5,7 +5,6 @@ const assert = require('./assert')
 const toHtml = require('../../toHtml')
 
 describe('toHtml', () => {
-
   it('returns original string when no transformation is required', () => {
     assert(() => toHtml('Hello World!') === 'Hello World!')
   })
@@ -36,5 +35,9 @@ describe('toHtml', () => {
 
   it('converts italic escape to HTML', () => {
     assert(() => toHtml('abc'.italic) === '<i>abc</i>')
+  })
+
+  it('ignores invalid codes', () => {
+    assert(() => toHtml('ab\x1B[999mc') === 'abc')
   })
 })
