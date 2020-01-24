@@ -41,16 +41,20 @@ function preHtml (mapping, redirect, response) {
   </head>
   <body>
     <pre>`)
+  }
 }
 
 function writeHtml (mapping, response, text) {
-  response.write(toHmtml(text.toString()))
+  preHtml(mapping, '', response)
+  response.write(toHtml(text.toString()))
   if (mapping['html-tracking']) {
-    response.write(`<a name="${++step}" /><script>location.hash="${step}";</script>`)
+    response.step = (response.step || 0) + 1
+    response.write(`<a name="${response.step}" /><script>location.hash="${response.step}";</script>`)
   }
 }
 
 function writeText (mapping, response, text) {
+  pre(response, TEXT_MIME_TYPE)
   response.write(text)
 }
 
@@ -71,27 +75,24 @@ handlers.GET = async ({ mapping, redirect, request, response }) => {
 
   // FIRST implementation: If any mention of text/html, use it. Text otherwise
   const accept = request.headers.Accept || ''
-  let pre
   let write
   let post
   if (accept.includes(HTML_MIME_TYPE)) {
-    pre = preHtml
     write = writeHtml
     post = postHtml.bind(null, resolver)
   } else {
-    pre = pre
     write = writeText
     post = resolver
   }
 
-  const { file, args, options } = buildExecFileParameters(mapping, redirect)
+  const { file, args, options } = buildExecFileParameters(mapping, redirect)
   const cmd = childProcess.execFile(file, args, options)
 
   cmd.stdout.on('data', write.bind(null, mapping, response))
   cmd.stderr.on('data', write.bind(null, mapping, response))
 
-  cmd.on('error', () => {
-    const message = err.toString()
+  cmd.on('error', error => {
+    const message = error.toString()
     response.writeHead(500, {
       'Content-Type': TEXT_MIME_TYPE,
       'Content-Length': message.length
