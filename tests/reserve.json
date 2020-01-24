@@ -4,7 +4,7 @@
     "cmd": "../index.js"
   },
   "mappings": [{
-    "match": "^\\/(.*)",
+    "match": "(.*)",
     "cmd": "node cmd.js $1"
   }]
 }
