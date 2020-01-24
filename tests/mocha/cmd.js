@@ -13,23 +13,21 @@ function c (string) {
     .join('')
 }
 
-const param = process.argv.pop()
-const handlers = {
-  simple () {
-    console.log('simple')
-  },
-  rainbow () {
-    console.log('rainbow'.rainbow)
-  },
-  rainbow_c () {
-    console.log(c('rainbow'.rainbow))
-  },
-  red () {
-    console.log('red'.red)
-  },
-  red_c () {
-    console.log(c('red'.red))
-  }
+const strings = {
+  simple: 'simple',
+  rainbow: 'rainbow'.rainbow,
+  red: 'red'.red,
+  underline: 'underline'.underline,
+  italic: 'italic'.italic,
+  mix: ('red ' + 'blue'.blue).red.italic
 }
 
-handlers[param]()
+const sample = process.argv.pop()
+const string = strings[sample]
+const showCode = process.argv.pop() === '-c'
+
+if (showCode) {
+  console.log(c(string))
+} else {
+  console.log(string)
+}
