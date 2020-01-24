@@ -14,7 +14,9 @@
     "lint": "standard --fix",
     "mocha": "mocha",
     "mocha-dbg": "node --inspect-brk node_modules/mocha/bin/_mocha",
-    "cover": "nyc mocha && nyc report --reporter=lcov"
+    "cover": "nyc mocha && nyc report --reporter=lcov",
+    "serve": "reserve --config tests/reserve.json",
+    "serve-dbg": "node --inspect-brk node_modules/reserve --config tests/reserve.json"
   },
   "repository": {
     "type": "git",
