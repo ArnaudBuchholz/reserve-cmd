@@ -1,0 +1,10 @@
+{
+  "port": 8999,
+  "handlers": {
+    "cmd": "../index.js"
+  },
+  "mappings": [{
+    "match": "^\\/(.*)",
+    "cmd": "node cmd.js $1"
+  }]
+}
