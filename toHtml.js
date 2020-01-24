@@ -1,5 +1,7 @@
 'use strict'
 
+/* eslint-disable no-control-regex */
+
 const colors = {
   1: '<b>',
   22: '</b>',
