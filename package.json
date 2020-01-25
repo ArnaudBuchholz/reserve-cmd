@@ -15,7 +15,7 @@
     "mocha": "mocha",
     "mocha-dbg": "node --inspect-brk node_modules/mocha/bin/_mocha",
     "cover": "nyc mocha && nyc report --reporter=lcov",
-    "serve": "reserve --config tests/reserve.json",
+    "serve": "reserve --config tests/reserve.json --verbose",
     "serve-dbg": "node --inspect-brk node_modules/reserve --config tests/reserve.json"
   },
   "repository": {
