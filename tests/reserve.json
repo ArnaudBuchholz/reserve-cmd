@@ -4,7 +4,17 @@
     "cmd": "../index.js"
   },
   "mappings": [{
-    "match": "(.*)",
-    "cmd": "node cmd.js $1"
+    "match": "/style.css",
+    "file": "./style.css"
+  }, {
+    "match": "/windir",
+    "cmd": "cmd.exe /C dir /S",
+    "cwd": "../",
+    "html-tracking": true
+ }, {
+    "match": "/(.*)",
+    "cmd": "node cmd.js $1",
+    "text-only": false,
+    "html-header": "<link rel=\"stylesheet\" type=\"text/css\" href=\"/style.css\">"
   }]
 }
