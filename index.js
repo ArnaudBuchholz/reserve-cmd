@@ -34,55 +34,53 @@ function pre (response, contentType) {
 
 function preHtml (mapping, redirect, response) {
   if (pre(response, HTML_MIME_TYPE)) {
-    response.write(`<html>
-  <head>
-    <title>${toHtml(redirect)}</title>
-    <link rel="stylesheet" type="text/css" href="/res/console.css">
-  </head>
-  <body>
-    <pre>`)
+    response.write(`<html><head><title>${toHtml(redirect)}</title>`)
+    response.write(mapping['html-header'] || '')
+    response.write(`</head><body><pre>`)
   }
 }
 
-function writeHtml (mapping, response, text) {
+function writeHtml (mapping, response, chunk) {
   preHtml(mapping, '', response)
-  response.write(toHtml(text.toString()))
+  response.write(toHtml(chunk.toString()))
   if (mapping['html-tracking']) {
     response.step = (response.step || 0) + 1
     response.write(`<a name="${response.step}" /><script>location.hash="${response.step}";</script>`)
   }
 }
 
-function writeText (mapping, response, text) {
+function writeText (mapping, response, chunk) {
   pre(response, TEXT_MIME_TYPE)
-  response.write(text)
+  response.write(chunk.toString())
 }
 
-function postHtml (resolver, mapping, response) {
-  response.write(`
-    </pre>
-  </body>
-<html>`)
-  resolver()
+function postHtml (mapping, response, end) {
+  response.write('</pre>')
+  response.write(mapping['html-footer'] || '')
+  response.write('</body><html>')
+  end()
 }
 
 const handlers = {}
 handlers.GET = async ({ mapping, redirect, request, response }) => {
-  let resolver
+  let end
   const promise = new Promise(resolve => {
-    resolver = resolve
+    end = () => {
+      response.end()
+      resolve()
+    }
   })
 
   // FIRST implementation: If any mention of text/html, use it. Text otherwise
-  const accept = request.headers.Accept || ''
+  const accept = request.headers.accept || ''
   let write
   let post
-  if (accept.includes(HTML_MIME_TYPE)) {
+  if (accept.includes(HTML_MIME_TYPE) && !mapping['text-only']) {
     write = writeHtml
-    post = postHtml.bind(null, resolver)
+    post = postHtml
   } else {
     write = writeText
-    post = resolver
+    post = end
   }
 
   const { file, args, options } = buildExecFileParameters(mapping, redirect)
@@ -97,11 +95,11 @@ handlers.GET = async ({ mapping, redirect, request, response }) => {
       'Content-Type': TEXT_MIME_TYPE,
       'Content-Length': message.length
     })
-    response.end(message)
-    resolver()
+    response.write(message)
+    end()
   })
 
-  cmd.on('close', post.bind(null, mapping, response, resolver))
+  cmd.on('close', post.bind(null, mapping, response, end))
   return promise
 }
 
