@@ -1,0 +1,37 @@
+body {
+    font-family: Lucida Console, Courier New, sans-serif;
+    font-size: 10pt;
+    white-space: pre;
+}
+
+.black {
+    color: black;
+}
+
+.red {
+    color: red;
+}
+
+.green {
+    color: green;
+}
+
+.yellow {
+    color: darkgoldenrod;
+}
+
+.blue {
+    color: blue;
+}
+
+.magenta {
+    color: magenta;
+}
+
+.cyan {
+    color: cyan;
+}
+
+.white {
+    color: white;
+}
