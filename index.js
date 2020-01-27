@@ -36,6 +36,18 @@ function preHtml (mapping, redirect, response) {
   if (pre(response, HTML_MIME_TYPE)) {
     response.write(`<html><head><title>${toHtml(redirect)}</title>`)
     response.write(mapping['html-header'] || '')
+    if (mapping['html-tracking']) {
+      response.write(`<script>
+var _lastScrollPos
+function scroll () {
+  var pos = document.scrollingElement.scrollHeight
+  if (pos !== _lastScrollPos) {
+    _lastScrollPos = pos
+    document.scrollingElement.scrollTop = pos
+  }
+}
+</script>`)
+    }
     response.write(`</head><body><pre>`)
   }
 }
@@ -44,8 +56,7 @@ function writeHtml (mapping, response, chunk) {
   preHtml(mapping, '', response)
   response.write(toHtml(chunk.toString()))
   if (mapping['html-tracking']) {
-    response.step = (response.step || 0) + 1
-    response.write(`<a name="${response.step}" /><script>location.hash="${response.step}";</script>`)
+    response.write(`<script>scroll()</script>`)
   }
 }
 
