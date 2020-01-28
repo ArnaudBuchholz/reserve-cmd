@@ -27,13 +27,13 @@ describe('parseCmd', () => {
     it('keeps spaces within escaping', test('Hello `  World  `', ['Hello', '  World  ']))
 
     describe('escaping the escape', () => {
-      it('handles boundaries', test('Hello ``World``', ['Hello' ,'`World`']))
+      it('handles boundaries', test('Hello ``World``', ['Hello', '`World`']))
 
-      it('handles inner content', test('Hello Wor``ld', ['Hello' ,'Wor`ld']))
+      it('handles inner content', test('Hello Wor``ld', ['Hello', 'Wor`ld']))
 
-      it('handles in escaped string', test('Hello ` Wor``ld `', ['Hello' ,' Wor`ld ']))
+      it('handles in escaped string', test('Hello ` Wor``ld `', ['Hello', ' Wor`ld ']))
 
-      it('handles boundaries in escaped string', test('Hello ```Wor  ld ```', ['Hello' ,'`Wor  ld `']))
+      it('handles boundaries in escaped string', test('Hello ```Wor  ld ```', ['Hello', '`Wor  ld `']))
     })
   })
 })
