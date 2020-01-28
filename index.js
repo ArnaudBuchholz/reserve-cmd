@@ -2,15 +2,13 @@
 
 const childProcess = require('child_process')
 const toHtml = require('./toHtml')
+const parseCmd = require('./parseCmd')
 
 const HTML_MIME_TYPE = 'text/html'
 const TEXT_MIME_TYPE = 'text/plain'
 
 function buildExecFileParameters (mapping, redirect) {
-  const parts = []
-  redirect.replace(/`([^`]*)`|([^ ]+)/g, (match, raw, escaped) => {
-    parts.push(raw || escaped)
-  })
+  const parts = parseCmd(redirect)
   return {
     file: parts[0],
     args: parts.slice(1),
