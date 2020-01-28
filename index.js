@@ -46,7 +46,7 @@ function scroll () {
 }
 </script>`)
     }
-    response.write(`</head><body><pre>`)
+    response.write('</head><body><pre>')
   }
 }
 
@@ -54,7 +54,7 @@ function writeHtml (mapping, response, chunk) {
   preHtml(mapping, '', response)
   response.write(toHtml(chunk.toString()))
   if (mapping['html-tracking']) {
-    response.write(`<script>scroll()</script>`)
+    response.write('<script>scroll()</script>')
   }
 }
 
