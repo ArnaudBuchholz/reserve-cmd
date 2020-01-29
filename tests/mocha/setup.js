@@ -6,8 +6,8 @@ module.exports = require('reserve/mock')({
     cmd: require('../../index.js')
   },
   mappings: [{
-    match: /\/cmd\?param=(.*)/,
+    match: /\/(.*)/,
     cwd: __dirname,
-    cmd: 'node ../cmd.js \'$1\''
+    cmd: 'node ../cmd.js `$1`'
   }]
 })
