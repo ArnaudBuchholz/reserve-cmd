@@ -63,7 +63,8 @@
   "nyc": {
     "check-coverage": true,
     "exclude": [
-      "tests/mocha/assert.js"
+      "tests/mocha/assert.js",
+      "tests/cmd.js"
     ],
     "branches": 100,
     "lines": 100,
