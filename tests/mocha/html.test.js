@@ -15,7 +15,7 @@ describe('html', function () {
   })
     .then(response => {
       assert(() => response.statusCode === 200)
-      // assert(() => response.toString() === 'simple\n')
+      assert(() => response.toString().includes('<pre>simple\n</pre>'))
     })
   )
 
@@ -24,8 +24,35 @@ describe('html', function () {
   })
     .then(response => {
       assert(() => response.statusCode === 200)
-      console.log(response.toString())
-      assert(() => response.toString().includes('class="red"'))
+      assert(() => response.toString().includes('<span class="red">r</span>'))
+    })
+  )
+
+  it('supports html tracking', () => mocked.request('GET', '/customized/rainbow', {
+    accept: 'text/html'
+  })
+    .then(response => {
+      assert(() => response.statusCode === 200)
+      assert(() => response.toString().includes('<script>scroll()</script>'))
+    })
+  )
+
+  it('supports header / footer insertion', () => mocked.request('GET', '/customized/rainbow', {
+    accept: 'text/html'
+  })
+    .then(response => {
+      assert(() => response.statusCode === 200)
+      assert(() => response.toString().includes('<script src="header.js"></script>'))
+      assert(() => response.toString().includes('<p>footer</p>'))
+    })
+  )
+
+  it('supports asynchronous chunks', () => mocked.request('GET', '/countdown', {
+    accept: 'text/html'
+  })
+    .then(response => {
+      assert(() => response.statusCode === 200)
+      assert(() => response.toString().includes('10\n9\n8\n7\n6\n5\n4\n3\n2\n1\n'))
     })
   )
 })
