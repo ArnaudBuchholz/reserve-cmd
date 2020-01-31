@@ -27,4 +27,13 @@ describe('text', function () {
       assert(() => response.toString().includes('\x1B'))
     })
   )
+
+  it('supports asynchronous chunks', () => mocked.request('GET', '/countdown', {
+    accept: 'text/plain'
+  })
+    .then(response => {
+      assert(() => response.statusCode === 200)
+      assert(() => response.toString() === '10\n9\n8\n7\n6\n5\n4\n3\n2\n1\n')
+    })
+  )
 })
