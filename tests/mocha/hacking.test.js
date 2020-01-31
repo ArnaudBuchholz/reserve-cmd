@@ -16,4 +16,10 @@ describe('hacking', () => {
       })
     )
   })
+
+  it('handles error', () => mocked.request('GET', '/error')
+    .then(response => {
+      assert(() => response.statusCode === 500)
+    })
+  )
 })
