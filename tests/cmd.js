@@ -26,14 +26,15 @@ const sample = process.argv.pop()
 const string = strings[sample]
 const showCode = process.argv.pop() === '-c'
 
-if (sample === 'countdown') {
-  let count = 10
-  function counter () {
-    console.log(count.toString())
-    if (--count) {
-      setTimeout(counter, 100)
-    }
+let count = 10
+function counter () {
+  console.log(count.toString())
+  if (--count) {
+    setTimeout(counter, 100)
   }
+}
+
+if (sample === 'countdown') {
   counter()
 } else if (showCode) {
   console.log(c(string))
