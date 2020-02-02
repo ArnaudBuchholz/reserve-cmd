@@ -12,7 +12,6 @@ Command line handler for [REserve](https://npmjs.com/package/reserve). It allows
 [![reserve](http://img.shields.io/npm/dm/reserve-cmd.svg)](https://www.npmjs.org/package/reserve-cmd)
 [![install size](https://packagephobia.now.sh/badge?p=reserve-cmd)](https://packagephobia.now.sh/result?p=reserve-cmd)
 [![MIT License](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FArnaudBuchholz%2Freserve-cmd.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2FArnaudBuchholz%2Freserve-cmd?ref=badge_shield)
 
 ## Usage
 
