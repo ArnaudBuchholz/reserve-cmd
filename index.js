@@ -33,7 +33,7 @@ function pre (response, contentType) {
 function preHtml (mapping, redirect, response) {
   if (pre(response, HTML_MIME_TYPE)) {
     response.write(`<html><head><title>${toHtml(redirect)}</title>`)
-    response.write(mapping['html-header'] || '')
+    response.write(mapping['html-header'])
     if (mapping['html-tracking']) {
       response.write(`<script>
 var _lastScrollPos
@@ -65,7 +65,7 @@ function writeText (mapping, response, chunk) {
 
 function postHtml (mapping, response, end) {
   response.write('</pre>')
-  response.write(mapping['html-footer'] || '')
+  response.write(mapping['html-footer'])
   response.write('</body><html>')
   end()
 }
@@ -113,6 +113,33 @@ handlers.GET = async ({ mapping, redirect, request, response }) => {
 }
 
 module.exports = {
+  schema: {
+    env: {
+      type: 'object',
+      defaultValue: {}
+    },
+    'html-footer': {
+      type: 'string',
+      defaultValue: ''
+    },
+    'html-header': {
+      type: 'string',
+      defaultValue: ''
+    },
+    'html-tracking': {
+      type: 'boolean',
+      defaultValue: false
+    },
+    'text-only': {
+      type: 'boolean',
+      defaultValue: false
+    },
+    timeout: {
+      type: 'number',
+      defaultValue: 0
+    }
+  },
+
   async redirect ({ mapping, match, redirect, request, response }) {
     const handler = handlers[request.method]
     if (handler) {
