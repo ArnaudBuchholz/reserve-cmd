@@ -14,7 +14,7 @@ function buildExecFileParameters (mapping, redirect) {
     args: parts.slice(1),
     options: {
       cwd: mapping.cwd,
-      env: Object.assign({}, mapping.env || {}, process.env),
+      env: Object.assign({}, mapping.env, process.env),
       timeout: mapping.timeout | 0
     }
   }
