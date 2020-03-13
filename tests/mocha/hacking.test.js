@@ -12,7 +12,7 @@ describe('hacking', () => {
   'HEAD,POST,PUT,DELETE,CUSTOM'.split(',').forEach(verb => {
     it(`prevents unauthorized verb use (${verb})`, () => mocked.request(verb, '/simple')
       .then(response => {
-        assert(() => response.statusCode === 500)
+        assert(() => response.statusCode === 501)
       })
     )
   })
