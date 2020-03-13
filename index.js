@@ -139,12 +139,8 @@ module.exports = {
       defaultValue: 0
     }
   },
-
+  method: Object.keys(handlers),
   async redirect ({ mapping, match, redirect, request, response }) {
-    const handler = handlers[request.method]
-    if (handler) {
-      return handler({ mapping, match, redirect, request, response })
-    }
-    return 500
+    return handlers[request.method]({ mapping, match, redirect, request, response })
   }
 }
