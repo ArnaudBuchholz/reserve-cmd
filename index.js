@@ -30,9 +30,9 @@ function pre (response, contentType) {
   }
 }
 
-function preHtml (mapping, redirect, response) {
+function preHtml (mapping, response) {
   if (pre(response, HTML_MIME_TYPE)) {
-    response.write(`<html><head><title>${toHtml(redirect)}</title>`)
+    response.write(`<html><head>`)
     response.write(mapping['html-header'])
     if (mapping['html-tracking']) {
       response.write(`<script>
@@ -51,7 +51,7 @@ function scroll () {
 }
 
 function writeHtml (mapping, response, chunk) {
-  preHtml(mapping, '', response)
+  preHtml(mapping, response)
   response.write(toHtml(chunk.toString()))
   if (mapping['html-tracking']) {
     response.write('<script>scroll()</script>')
@@ -64,9 +64,10 @@ function writeText (mapping, response, chunk) {
 }
 
 function postHtml (mapping, response, end) {
+  preHtml(mapping, response)
   response.write('</pre>')
   response.write(mapping['html-footer'])
-  response.write('</body><html>')
+  response.write('</body></html>')
   end()
 }
 
