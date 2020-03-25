@@ -38,6 +38,6 @@ if (sample === 'countdown') {
   counter()
 } else if (showCode) {
   console.log(c(string))
-} else {
+} else if (string) {
   console.log(string)
 }
