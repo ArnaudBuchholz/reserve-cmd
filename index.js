@@ -32,7 +32,7 @@ function pre (response, contentType) {
 
 function preHtml (mapping, response) {
   if (pre(response, HTML_MIME_TYPE)) {
-    response.write(`<html><head>`)
+    response.write('<html><head>')
     response.write(mapping['html-header'])
     if (mapping['html-tracking']) {
       response.write(`<script>
