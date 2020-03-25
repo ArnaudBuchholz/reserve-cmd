@@ -55,4 +55,15 @@ describe('html', function () {
       assert(() => response.toString().includes('10\n9\n8\n7\n6\n5\n4\n3\n2\n1\n'))
     })
   )
+
+  it('supports empty result', () => mocked.request('GET', '/empty', {
+    accept: 'text/html'
+  })
+    .then(response => {
+      assert(() => response.statusCode === 200)
+      assert(() => response.toString().includes('<html><head>'))
+      assert(() => response.toString().includes('</head><body>'))
+      assert(() => response.toString().includes('</body></html>'))
+    })
+  )
 })
