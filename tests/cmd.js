@@ -23,7 +23,12 @@ const strings = {
 }
 
 const sample = process.argv.pop()
-const string = strings[sample]
+let string
+if (sample.startsWith('env_')) {
+  string = process.env[sample.substring(4)]
+} else {
+  string = strings[sample]
+}
 const showCode = process.argv.pop() === '-c'
 
 let count = 10
