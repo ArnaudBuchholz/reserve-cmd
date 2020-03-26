@@ -43,7 +43,17 @@ describe('html', function () {
     .then(response => {
       assert(() => response.statusCode === 200)
       assert(() => response.toString().includes('<script src="header.js"></script>'))
-      assert(() => response.toString().includes('<p>footer</p>'))
+      assert(() => response.toString().includes('<p>footer'))
+    })
+  )
+
+  it('supports header / footer interpolation', () => mocked.request('GET', '/customized/rainbow', {
+    accept: 'text/html'
+  })
+    .then(response => {
+      assert(() => response.statusCode === 200)
+      assert(() => response.toString().includes('<title>rainbow</title>'))
+      assert(() => response.toString().includes('footer: rainbow'))
     })
   )
 
