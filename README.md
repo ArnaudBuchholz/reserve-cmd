@@ -33,12 +33,14 @@ Capturing group values substitutions can be used, space escaping is done with th
 
 | Option | Default Value | Explanation |
 |---|---|---|
-| `env` | `{}` | Additional variables to be used in the created process *(see [`child_process.execFile`](https://nodejs.org/dist/latest/docs/api/child_process.html#child_process_child_process_execfile_file_args_options_callback))* |
-| `html-footer` | `''` | Additional content to be added in the footer of the HTML output |
-| `html-header` | `''` | Additional content to be added in the header of the HTML output |
+| `env` | `{}` | Additional variables to be used in the created process *(see [`child_process.execFile`](https://nodejs.org/dist/latest/docs/api/child_process.html#child_process_child_process_execfile_file_args_options_callback))* *(interpolated)*|
+| `html-footer` | `''` | Additional content to be added in the footer of the HTML output *(interpolated)*|
+| `html-header` | `''` | Additional content to be added in the header of the HTML output *(interpolated)*|
 | `html-tracking` | `false` | Injects JavaScript code to scroll the HTML output while executing |
 | `text-only` | `false` | When set, the output is always text |
 | `timeout` | `0` | Automatic kill of the process *(see [`child_process.execFile`](https://nodejs.org/dist/latest/docs/api/child_process.html#child_process_child_process_execfile_file_args_options_callback))* |
+
+**NOTE** : interpolated values are **transformed** as described in the [custom handlers section](https://www.npmjs.com/package/reserve#capturing-groups-and-interpolation) of REserve.
 
 Any command can be executed (use it **carefully**). If a process can not be started, the request ends with a `500` error.
 
