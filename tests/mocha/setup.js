@@ -12,12 +12,16 @@ module.exports = require('reserve/mock')({
     match: /\/customized\/(.*)/,
     cwd: __dirname,
     'html-tracking': true,
-    'html-header': '<script src="header.js"></script>',
-    'html-footer': '<p>footer</p>',
+    'html-header': '<title>$1</title><script src="header.js"></script>',
+    'html-footer': '<p>footer: $1</p>',
     cmd: 'node ../cmd.js `$1`'
   }, {
     match: /\/(.*)/,
     cwd: __dirname,
-    cmd: 'node ../cmd.js `$1`'
+    cmd: 'node ../cmd.js `$1`',
+    env: {
+      STATIC: 'test',
+      QUERY: '$1'
+    }
   }]
 })
