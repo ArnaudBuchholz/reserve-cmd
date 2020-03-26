@@ -3,18 +3,19 @@
 const childProcess = require('child_process')
 const toHtml = require('./toHtml')
 const parseCmd = require('./parseCmd')
+const { interpolate } = require('reserve')
 
 const HTML_MIME_TYPE = 'text/html'
 const TEXT_MIME_TYPE = 'text/plain'
 
-function buildExecFileParameters (mapping, redirect) {
+function buildExecFileParameters (mapping, match, redirect) {
   const parts = parseCmd(redirect)
   return {
     file: parts[0],
     args: parts.slice(1),
     options: {
       cwd: mapping.cwd,
-      env: Object.assign({}, mapping.env, process.env),
+      env: Object.assign({}, interpolate(match, mapping.env), process.env),
       timeout: mapping.timeout | 0
     }
   }
@@ -30,10 +31,10 @@ function pre (response, contentType) {
   }
 }
 
-function preHtml (mapping, response) {
+function preHtml (mapping, match, response) {
   if (pre(response, HTML_MIME_TYPE)) {
     response.write('<html><head>')
-    response.write(mapping['html-header'])
+    response.write(interpolate(match, mapping['html-header']))
     if (mapping['html-tracking']) {
       response.write(`<script>
 var _lastScrollPos
@@ -50,29 +51,29 @@ function scroll () {
   }
 }
 
-function writeHtml (mapping, response, chunk) {
-  preHtml(mapping, response)
+function writeHtml ({ mapping, match, response }, chunk) {
+  preHtml(mapping, match, response)
   response.write(toHtml(chunk.toString()))
   if (mapping['html-tracking']) {
     response.write('<script>scroll()</script>')
   }
 }
 
-function writeText (mapping, response, chunk) {
+function writeText ({ response }, chunk) {
   pre(response, TEXT_MIME_TYPE)
   response.write(chunk.toString())
 }
 
-function postHtml (mapping, response, end) {
-  preHtml(mapping, response)
+function postHtml ({ mapping, match, response }, end) {
+  preHtml(mapping, match, response)
   response.write('</pre>')
-  response.write(mapping['html-footer'])
+  response.write(interpolate(match, mapping['html-footer']))
   response.write('</body></html>')
   end()
 }
 
 const handlers = {}
-handlers.GET = async ({ mapping, redirect, request, response }) => {
+handlers.GET = async ({ mapping, match, redirect, request, response }) => {
   let end
   const promise = new Promise(resolve => {
     end = () => {
@@ -93,11 +94,13 @@ handlers.GET = async ({ mapping, redirect, request, response }) => {
     post = end
   }
 
-  const { file, args, options } = buildExecFileParameters(mapping, redirect)
+  const { file, args, options } = buildExecFileParameters(mapping, match, redirect)
   const cmd = childProcess.execFile(file, args, options)
 
-  cmd.stdout.on('data', write.bind(null, mapping, response))
-  cmd.stderr.on('data', write.bind(null, mapping, response))
+  const params = { mapping, match, response }
+
+  cmd.stdout.on('data', write.bind(null, params))
+  cmd.stderr.on('data', write.bind(null, params))
 
   cmd.on('error', error => {
     const message = error.toString()
@@ -109,7 +112,7 @@ handlers.GET = async ({ mapping, redirect, request, response }) => {
     end()
   })
 
-  cmd.on('close', post.bind(null, mapping, response, end))
+  cmd.on('close', post.bind(null, params, end))
   return promise
 }
 
