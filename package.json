@@ -1,6 +1,6 @@
 {
   "name": "reserve-cmd",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "command handler for REserve",
   "main": "./index.js",
   "files": [
@@ -33,7 +33,7 @@
   },
   "homepage": "https://github.com/ArnaudBuchholz/reserve-cmd#readme",
   "dependencies": {
-    "reserve": "^1.4.0"
+    "reserve": ">=1.6.1"
   },
   "devDependencies": {
     "colors": "^1.4.0",
